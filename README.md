@@ -17,6 +17,8 @@ If an error occured while loading, we will see a warning symbol:
 
 In order to heal a pet, we just click on it
 
+You can try the app if you visit [this link](https://codelandersblog.github.io/redux-thunk-pet-clinic/).
+
 ## Motivation
 
 With this example app we want to demonstrate a two use cases to use [redux-thunks](https://redux.js.org/usage/writing-logic-thunks#thunk-use-cases):
