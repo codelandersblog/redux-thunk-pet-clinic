@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 export function App() {
   const [pets, setPets] = useState([]);
   const [egg, setEgg] = useState(null);
-  async function onLoadPet(e) {
+  function onLoadPet(e) {
     e.preventDefault();
     setEgg(loadEgg());
     loadPet()
@@ -34,35 +34,33 @@ export function App() {
       <span className="pets-to-heal">Pets to heal: {countPets()}</span>
       <div className="clinic">
         {pets.map((a) => (
-          <Pet key={`pet-${a.id}`} id={a.id} code={a.code} healPet={healPet} />
-        ))}
-        {egg && (
-          <Pet
-            key={`egg-${egg.id}`}
-            id={egg.id}
-            code={egg.code}
-            healPet={healPet}
+          <Element
+            key={`pet-${a.id}`}
+            id={a.id}
+            code={a.code}
+            onClick={healPet}
           />
-        )}
+        ))}
+        {egg && <Element key={`egg-${egg.id}`} id={egg.id} code={egg.code} />}
       </div>
     </div>
   );
 }
 
-function Pet({ id, code, healPet }) {
-  function onHealPet() {
-    healPet(id);
+function Element({ id, code, onClick }) {
+  function handleClick() {
+    onClick?.(id);
   }
   return (
     <span
-      onClick={onHealPet}
-      className="pet"
+      onClick={handleClick}
+      className={`element ${onClick ? "clickable" : ""}`}
       dangerouslySetInnerHTML={{ __html: code }}
     />
   );
 }
-Pet.propTypes = {
+Element.propTypes = {
   id: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
-  healPet: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };

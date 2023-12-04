@@ -31,9 +31,13 @@ body {
   height: 80vh;
 }
 
-.pet {
-  cursor: pointer;
+.element {
+  cursor: default;
   font-size: 3rem;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 .pets-to-heal {
