@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { EGG_CODE, ERROR_CODE, loadEgg, loadError, loadPet } from "./api";
+import { loadEgg, loadError, loadPet, isError } from "./api";
 import PropTypes from "prop-types";
 
 export function App() {
@@ -23,8 +23,7 @@ export function App() {
     setPets(pets.filter((p) => p.id !== id));
   }
   function countPets() {
-    return pets.filter((p) => p.code !== ERROR_CODE && p.code !== EGG_CODE)
-      .length;
+    return pets.filter((p) => !isError(p)).length;
   }
   return (
     <div className="container">

@@ -23,15 +23,17 @@ export async function loadPet() {
   });
 }
 
-export const ERROR_CODE = "&#9888;&#65039;";
-export const EGG_CODE = "&#129370;";
-
 export function loadEgg() {
-  return { id: uuidv4(), code: EGG_CODE };
+  return { id: uuidv4(), code: "&#129370;" };
 }
 
+const ERROR_CODE = "&#9888;&#65039;";
 export function loadError() {
   return { id: uuidv4(), code: ERROR_CODE };
+}
+
+export function isError({ code }) {
+  return code === ERROR_CODE;
 }
 
 function timeout(ms) {
