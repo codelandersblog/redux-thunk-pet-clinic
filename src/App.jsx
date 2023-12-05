@@ -8,29 +8,25 @@ export function App() {
   const pets = useSelector((state) => state.clinic.pets);
   const egg = useSelector((state) => state.clinic.egg);
   const dispatch = useDispatch();
-  function onLoadPet(e) {
-    e.preventDefault();
-    dispatch(loadPetThunk());
-  }
-  function onHealPet(id) {
-    dispatch(healPet({ id }));
-  }
-  function countPets() {
-    return pets.filter((p) => !isError(p)).length;
-  }
   return (
     <div className="container">
-      <button disabled={!!egg} className="loading-button" onClick={onLoadPet}>
+      <button
+        disabled={!!egg}
+        className="loading-button"
+        onClick={() => dispatch(loadPetThunk())}
+      >
         Load new pet
       </button>
-      <span className="pets-to-heal">Pets to heal: {countPets()}</span>
+      <span className="pets-to-heal">
+        Pets to heal: {pets.filter((p) => !isError(p)).length}
+      </span>
       <div className="clinic">
         {pets.map((a) => (
           <Element
             key={`pet-${a.id}`}
             id={a.id}
             code={a.code}
-            onClick={onHealPet}
+            onClick={() => dispatch(healPet({ id: a.id }))}
           />
         ))}
         {egg && <Element key={`egg-${egg.id}`} id={egg.id} code={egg.code} />}
