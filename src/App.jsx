@@ -1,26 +1,26 @@
-import { useState } from "react";
 import "./App.css";
-import { loadEgg, loadError, loadPet, isError } from "./api";
+import { isError, loadPet } from "./api";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { addError, addPet, healPet, startLoading } from "./clinicSlice";
 
 export function App() {
-  const [pets, setPets] = useState([]);
-  const [egg, setEgg] = useState(null);
+  const pets = useSelector((state) => state.clinic.pets);
+  const egg = useSelector((state) => state.clinic.egg);
+  const dispatch = useDispatch();
   function onLoadPet(e) {
     e.preventDefault();
-    setEgg(loadEgg());
+    dispatch(startLoading());
     loadPet()
       .then((pet) => {
-        setEgg(null);
-        setPets([...pets, pet]);
+        dispatch(addPet({ pet }));
       })
       .catch(() => {
-        setEgg(null);
-        setPets([...pets, loadError()]);
+        dispatch(addError());
       });
   }
-  function healPet(id) {
-    setPets(pets.filter((p) => p.id !== id));
+  function onHealPet(id) {
+    dispatch(healPet({ id }));
   }
   function countPets() {
     return pets.filter((p) => !isError(p)).length;
@@ -37,7 +37,7 @@ export function App() {
             key={`pet-${a.id}`}
             id={a.id}
             code={a.code}
-            onClick={healPet}
+            onClick={onHealPet}
           />
         ))}
         {egg && <Element key={`egg-${egg.id}`} id={egg.id} code={egg.code} />}
