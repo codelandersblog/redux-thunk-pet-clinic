@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loadEgg, loadError } from "./api";
+import { loadEgg, loadError, loadPet } from "./api";
 
 const initialState = {
   pets: [],
@@ -28,5 +28,15 @@ export const clinicSlice = createSlice({
 });
 
 export const { startLoading, addPet, addError, healPet } = clinicSlice.actions;
+
+export const loadPetThunk = () => async (dispatch) => {
+  dispatch(startLoading());
+  try {
+    const pet = await loadPet();
+    dispatch(addPet({ pet }));
+  } catch {
+    dispatch(addError());
+  }
+};
 
 export default clinicSlice.reducer;

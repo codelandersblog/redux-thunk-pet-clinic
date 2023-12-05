@@ -1,8 +1,8 @@
 import "./App.css";
-import { isError, loadPet } from "./api";
+import { isError } from "./api";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { addError, addPet, healPet, startLoading } from "./clinicSlice";
+import { healPet, loadPetThunk } from "./clinicSlice";
 
 export function App() {
   const pets = useSelector((state) => state.clinic.pets);
@@ -10,14 +10,7 @@ export function App() {
   const dispatch = useDispatch();
   function onLoadPet(e) {
     e.preventDefault();
-    dispatch(startLoading());
-    loadPet()
-      .then((pet) => {
-        dispatch(addPet({ pet }));
-      })
-      .catch(() => {
-        dispatch(addError());
-      });
+    dispatch(loadPetThunk());
   }
   function onHealPet(id) {
     dispatch(healPet({ id }));
